@@ -16,13 +16,29 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from scoring.views import admin_login,create_event,delete_event,manage_event,update_event
+from scoring.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/',admin_login,name='admin_login'),
+    path('judges/login',judge_login,name='judge_login'),
+
+    #event urls
     path('events/create/',create_event,name='create_event'),
     path('events/delete/<int:event_id>',delete_event,name='delete_event'),
     path('events/manage/',manage_event,name='manage_event'),
     path('events/update/<int:event_id>/',update_event,name='update_event'),
+
+    #performer urls
+    path('performers/',performer_list,name='performer_list'),
+    path('performers/create/',performer_create,name='performer_create'),
+    path('performers/update/<int:id>/',performer_update,name='performer_update'),
+    path('performers/delete/<int:id>/',performer_delete,name='performer_delete'),
+
+    #judge urls
+    path('judges/',judge_list,name='judge_list'),
+    path('judges/create/',judge_create,name='judge_create'),
+    path('judges/update/<int:id>/',judge_update,name='judge_update'),
+    path('judges/delete/<int:id>/',judge_delete,name='judge_delete')
+
 ]

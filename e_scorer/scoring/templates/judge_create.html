@@ -1,0 +1,8 @@
+<!-- judge_form.html -->
+<h1>{% if form.instance.pk %}Edit{% else %}Add{% endif %} Judge</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+</form>
+<a href="{% url 'judge_list' %}">Cancel</a>

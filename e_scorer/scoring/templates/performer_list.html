@@ -1,0 +1,12 @@
+<!-- performer_list.html -->
+<h1>Performers</h1>
+<a href="{% url 'performer_create' %}">Add Performer</a>
+<ul>
+    {% for performer in performers %}
+        <li>
+            {{ performer.name }} - 
+            <a href="{% url 'performer_update' performer.pk %}">Edit</a> | 
+            <a href="{% url 'performer_delete' performer.pk %}">Delete</a>
+        </li>
+    {% endfor %}
+</ul>
