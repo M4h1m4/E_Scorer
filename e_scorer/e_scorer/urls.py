@@ -16,7 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from scoring.views import admin_login,create_event,delete_event,manage_event,update_event
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('login/',admin_login,name='admin_login'),
+    path('events/create/',create_event,name='create_event'),
+    path('events/delete/<int:event_id>',delete_event,name='delete_event'),
+    path('events/manage/',manage_event,name='manage_event'),
+    path('events/update/<int:event_id>/',update_event,name='update_event'),
 ]
