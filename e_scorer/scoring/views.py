@@ -1,10 +1,10 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate,login
-from .forms import AdminLoginForm, EventForm, PerfomerForm,JudgeForm,JudgeLoginForm
-from .models import Event,Performer,Judge
+from .forms import *
+from .models import *
 from django.shortcuts import get_object_or_404
-
-
+from django.utils import timezone
+from datetime import timedelta
 
 # Create your views here.
 def admin_login(request):
@@ -108,6 +108,8 @@ def performer_delete(request, id):
         return redirect('performer_list')
     return render(request,'performer_list.html',{'performer':Performer.objects.all()})
 
+
+
 #Judges CRUD
 
 def  judge_list(request):
@@ -143,5 +145,37 @@ def judge_delete(request,id):
     return render(request,'judge_confirm_delete.html',{'judge':Judge.objects.all()})
 
 
+def judge_score(request, id):
+    # judge_id = request.user.judge.id
+    performer = get_object_or_404(Performer, id=id)
+    judge = get_object_or_404(Judge, user=request.user)
+    
 
+    #judge= Judge.objects.filter(event=performer.event)
+    # judge=Judge.objects.filter(user=request.user)
+    print(type(judge))
+    # performance_end_time=performer.event.start_time + timedelta(minute=performer.performance_time_limit)
+    # scoring_end_time = performance_end_time + timedelta(minute=1)
+
+    # if timezone.now() > scoring_end_time:
+    #     return render(request, 'score_expired.html',{'performer':Performer})
+    if request.method == "POST":
+        form=ScoreForm(request.POST)
+        if form.is_valid():
+            score = form.save(commit=False)
+            score.performer = performer
+            score.judge = judge
+            score.event = performer.event
+            score.save()
+            # return redirect('performer_total_score', performer_id=id)
+    else:
+        form=ScoreForm()
+    return render(request, 'judge_score.html',{'form':form, 'performer':performer})
+
+
+def performer_total_score(request, id):
+    performer = get_object_or_404(Performer, id =id)
+    total_score = Score.objects.filter(performer=performer).aggregate(total=models.Sum('score'))['total']
+
+    return render(request, 'performer_total_score.html', {'perfromer':performer, 'total_score': total_score,})
 

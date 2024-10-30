@@ -39,6 +39,10 @@ urlpatterns = [
     path('judges/',judge_list,name='judge_list'),
     path('judges/create/',judge_create,name='judge_create'),
     path('judges/update/<int:id>/',judge_update,name='judge_update'),
-    path('judges/delete/<int:id>/',judge_delete,name='judge_delete')
+    path('judges/delete/<int:id>/',judge_delete,name='judge_delete'),
+    path('performer/total_score/<int:id>/', performer_total_score, name='performer_total_score'),
+    path('judges/score/<int:id>/', judge_score, name='judge_score'),
+
+
 
 ]

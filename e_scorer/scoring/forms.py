@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
-from .models import Event, Performer, Judge
+from .models import *
 
 
 class AdminLoginForm(AuthenticationForm):
@@ -30,3 +30,8 @@ class JudgeForm(forms.ModelForm):
     class Meta:
         model = Judge
         fields = ['user','event']
+
+class ScoreForm(forms.ModelForm):
+    class Meta:
+        model = Score
+        fields = ['score']
