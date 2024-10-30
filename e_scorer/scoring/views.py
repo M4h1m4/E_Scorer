@@ -5,7 +5,7 @@ from .models import *
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from datetime import timedelta
-
+from .decorators import judge_required
 # Create your views here.
 def admin_login(request):
     if request.method == 'POST':
@@ -75,7 +75,9 @@ def delete_event(request, event_id):
     return render(request,'manage_event.html',{'event':Event.objects.all()})
 
 
+
 #performer cruds
+@judge_required
 def performer_list(request):
     performers = Performer.objects.all()
     flag=False
@@ -165,7 +167,7 @@ def judge_delete(request,id):
         return redirect('judge_list')
     return render(request,'judge_confirm_delete.html',{'judge':Judge.objects.all()})
 
-
+@judge_required
 def judge_score(request, id):
     performer = get_object_or_404(Performer, id=id)
     judge = get_object_or_404(Judge, user=request.user)
@@ -181,10 +183,3 @@ def judge_score(request, id):
     else:
         form=ScoreForm()
     return render(request, 'judge_score.html',{'form':form, 'performer':performer})
-
-
-# def performer_total_score(request, id):
-    
-
-#     return render(request, 'performer_total_score.html', {'performer':performer, 'total_score': total_score,})
-
