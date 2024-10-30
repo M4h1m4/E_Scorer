@@ -1,0 +1,36 @@
+<!-- performer_list.html -->
+<h1>Performers</h1>
+<ul>
+    {% for data in performer_data %}
+        <li>
+            <strong>{{ data.performer.name }}</strong>
+            
+            <p>Performance Countdown: <span id="countdown-{{ data.performer.id }}">{{ data.countdown|floatformat:0 }}</span> seconds</p>
+            <button 
+                id="score-button-{{ data.performer.id }}" 
+                {% if data.countdown > 0 %}disabled{% endif %}
+                onclick="location.href='{% url 'judge_score' data.performer.id %}'">
+                Score
+            </button>
+            <!-- performer_total_score.html -->
+            <p>Total Score for {{ performer.name }}: {{ data.total_score }}</p>
+        </li>
+    {% endfor %}
+</ul>
+
+<script>
+    // Countdown Timer
+    setInterval(function() {
+        {% for data in performer_data %}
+            var countdownElement = document.getElementById('countdown-{{ data.performer.id }}');
+            var countdownValue = parseInt(countdownElement.innerText);
+            if (countdownValue > 0) {
+                countdownValue -= 1;
+                countdownElement.innerText = countdownValue;
+                if (countdownValue === 0) {
+                    document.getElementById('score-button-{{ data.performer.id }}').disabled = false;
+                }
+            }
+        {% endfor %}
+    }, 1000);
+</script>

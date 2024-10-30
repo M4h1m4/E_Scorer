@@ -1,0 +1,12 @@
+<!-- judge_list.html -->
+<h1>Judges</h1>
+<a href="{% url 'judge_create' %}">Add Judge</a>
+<ul>
+    {% for judge in judges %}
+        <li>
+            {{ judge.user.username }} - 
+            <a href="{% url 'judge_update' judge.pk %}">Edit</a> | 
+            <a href="{% url 'judge_delete' judge.pk %}">Delete</a>
+        </li>
+    {% endfor %}
+</ul>

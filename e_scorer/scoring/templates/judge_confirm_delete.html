@@ -1,0 +1,8 @@
+<!-- judge_confirm_delete.html -->
+<h1>Delete Judge</h1>
+<p>Are you sure you want to delete "{{ judge.user.username }}"?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Confirm</button>
+</form>
+<a href="{% url 'judge_list' %}">Cancel</a>

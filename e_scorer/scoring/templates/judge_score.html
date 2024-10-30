@@ -1,0 +1,7 @@
+<!-- judge_score.html -->
+<h2>Score Performer: {{ performer.name }}</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit Score</button>
+</form>
